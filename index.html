@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Cristopher Check</title>
+<style>
+  /* Fondo rayas doradas gruesas animadas */
+  body {
+    margin: 0; padding: 0; background: #000; color: #d4af37; font-family: 'Segoe UI', sans-serif;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      #d4af37,
+      #d4af37 6px,
+      transparent 6px,
+      transparent 16px
+    );
+    opacity: 0.15;
+    animation: moveBg 12s linear infinite;
+    z-index: 0;
+  }
+  @keyframes moveBg {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; }
+  }
+
+  header {
+    position: fixed; top: 15px; left: 20px; z-index: 10;
+    display: flex; align-items: center;
+    user-select: none;
+  }
+  .logo {
+    font-weight: bold; font-size: 2.2em; color: #d4af37;
+    text-shadow: 0 0 8px #d4af37;
+  }
+  .brand {
+    margin-left: 12px; font-size: 1.3em;
+    animation: pulse 2s infinite alternate;
+  }
+  @keyframes pulse {
+    0% {opacity: 0.6;}
+    100% {opacity: 1;}
+  }
+
+  #introScreen {
+    display: flex; flex-direction: column; align-items: center;
+    justify-content: center; height: 100vh; position: relative; z-index: 1;
+    text-align: center; padding: 20px;
+  }
+  #introScreen img {
+    max-width: 180px; margin: 10px 30px;
+    filter: drop-shadow(0 0 6px #d4af37);
+    transition: transform 1s ease-in-out;
+  }
+  /* Animacion ligera de pulso para imagenes */
+  #introScreen img.pulse {
+    animation: pulseImg 3s ease-in-out infinite;
+  }
+  @keyframes pulseImg {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+  #introScreen #cable {
+    width: 150px; height: auto; margin-top: -20px;
+    animation: connectCable 3s infinite;
+  }
+  @keyframes connectCable {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(15px); }
+  }
+  #introText {
+    font-size: 1.1em; margin-top: 24px;
+    text-shadow: 0 0 6px #d4af37;
+  }
+
+  #passwordScreen, #mainApp {
+    display: none; text-align: center; padding: 60px 20px;
+    min-height: 100vh; position: relative; z-index: 1;
+  }
+
+  input[type=password] {
+    padding: 12px 15px; font-size: 1.1em; border-radius: 10px;
+    border: none; width: 280px; max-width: 90vw;
+    margin-top: 20px;
+    box-shadow: 0 0 8px #d4af37 inset;
+    background: #111; color: #d4af37;
+  }
+  input[type=password]::placeholder {
+    color: #d4af37aa;
+  }
+
+  button {
+    margin-top: 20px; padding: 12px 30px; background: #d4af37;
+    color: #000; font-weight: 700; border: none;
+    border-radius: 10px; cursor: pointer;
+    box-shadow: 0 0 10px #d4af37;
+    transition: background 0.3s ease;
+  }
+  button:hover {
+    background: #b58f18;
+  }
+
+  #msg {
+    margin-top: 18px; font-weight: 700; font-size: 1.1em;
+  }
+  #msg.success {
+    color: #8fbc8f;
+    text-shadow: 0 0 10px #b0f5a0;
+  }
+  #msg.error {
+    color: #f44336;
+    text-shadow: 0 0 10px #f5a0a0;
+  }
+
+  #infoText {
+    margin-top: 30px; max-width: 400px; margin-left: auto; margin-right: auto;
+    font-size: 0.95em; line-height: 1.3em;
+    color: #d4af37cc;
+  }
+
+  /* Logos arriba en main app */
+  #mainApp .brands {
+    display: flex; justify-content: center; gap: 25px;
+    margin-bottom: 30px;
+  }
+  #mainApp .brands img {
+    width: 60px;
+    filter: drop-shadow(0 0 4px #d4af37);
+    user-select: none;
+  }
+
+  #deviceInfo {
+    margin-top: 18px; font-size: 1.05em; max-width: 360px;
+    margin-left: auto; margin-right: auto;
+    color: #d4af37cc;
+    line-height: 1.3em;
+  }
+  #deviceInfo span.success {
+    color: #8fbc8f;
+    text-shadow: 0 0 10px #b0f5a0;
+  }
+  #deviceInfo span.error {
+    color: #f44336;
+    text-shadow: 0 0 10px #f5a0a0;
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">CR</div>
+  <div class="brand">Cristopher Check</div>
+</header>
+
+<div id="introScreen" aria-label="Pantalla de inicio con animación de conexión">
+  <div style="display:flex; align-items:center; justify-content:center;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/88/Android_logo_2019.svg" alt="Logo Android" class="pulse" />
+    <img id="cable" src="https://upload.wikimedia.org/wikipedia/commons/6/6d/Usb_icon.svg" alt="Cable USB animado" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/35/HP_logo_2012.svg" alt="Logo HP" class="pulse" />
+  </div>
+  <div id="introText">Por favor espere 10 segundos...</div>
+</div>
+
+<div id="passwordScreen" aria-label="Pantalla para ingresar contraseña">
+  <h2>Ingrese la contraseña para ingresar</h2>
+  <input type="password" id="pass" placeholder="Escriba la contraseña" autocomplete="off" />
+  <br />
+  <button onclick="checkPassword()">Entrar</button>
+  <div id="msg" role="alert" aria-live="polite"></div>
+  <div id="infoText">
+    Esta herramienta fue creada por Cristopher Robles para verificar si tu celular Android es compatible con procesos como FRP, MDM, desbloqueo de red y más. Hecha con dedicación, da créditos.
+  </div>
+</div>
+
+<div id="mainApp" aria-label="Pantalla principal de verificación">
+  <div class="brands" aria-label="Marcas compatibles">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fb/Xiaomi_logo.svg" alt="Logo Xiaomi" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/24/Samsung_Logo.svg" alt="Logo Samsung" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/7/7f/OnePlus_Logo.svg" alt="Logo OnePlus" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Huawei_logo.svg" alt="Logo Huawei" />
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Motorola_2021_logo.svg" alt="Logo Motorola" />
+  </div>
+  <p>Conecte su dispositivo mediante cable USB</p>
+  <button onclick="verifyDevice()">Verificar mi Android</button>
+  <div id="deviceInfo" role="status" aria-live="polite"></div>
+</div>
+
+<script>
+  const isAndroid = /Android/i.test(navigator.userAgent);
+
+  // Mostrar pantalla contraseña después de 10 segundos
+  setTimeout(() => {
+    document.getElementById('introScreen').style.display = 'none';
+    document.getElementById('passwordScreen').style.display = 'block';
+  }, 10000);
+
+  function checkPassword() {
+    const passInput = document.getElementById('pass');
+    const msg = document.getElementById('msg');
+    if (passInput.value === 'cristolock') {
+      msg.textContent = 'Contraseña correcta ✔';
+      msg.className = 'success';
+      setTimeout(() => {
+        document.getElementById('passwordScreen').style.display = 'none';
+        document.getElementById('mainApp').style.display = 'block';
+      }, 1500);
+    } else {
+      msg.textContent = 'Contraseña incorrecta ✖';
+      msg.className = 'error';
+    }
+  }
+
+  function verifyDevice() {
+    const deviceInfo = document.getElementById('deviceInfo');
+    if (isAndroid) {
+      deviceInfo.innerHTML = '<span class="error">Esta función solo está disponible desde computadora. Usa una PC para continuar.</span>';
+      return;
+    }
+    deviceInfo.innerHTML = `<span class="success">Celular reconocido ✔</span><br>
+      CPU: Mediatek<br>
+      RAM: 4 GB<br>
+      Almacenamiento: 64 GB<br>
+      Android: 11<br>
+      FRP: Compatible<br>
+      MDM: Compatible<br>
+      Red: Desbloqueable`;
+  }
+</script>
+</body>
+</html>
